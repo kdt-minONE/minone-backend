@@ -1,4 +1,4 @@
-package kdt.minone.domain.ai;
+package kdt.minone.domain.ai.entity;
 
 import jakarta.persistence.*;
 import kdt.minone.global.common.entity.BaseEntity;
