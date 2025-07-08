@@ -18,6 +18,10 @@ public class ComplaintHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "complaint_id", nullable = false)
+    private Complaint complaint;
+
     @Column(length = 30)
     private String previousStatus;
 
@@ -29,4 +33,11 @@ public class ComplaintHistory {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    public ComplaintHistory(Complaint complaint, String previousStatus, String nextStatus, String comment) {
+        this.complaint = complaint;
+        this.previousStatus = previousStatus;
+        this.nextStatus = nextStatus;
+        this.comment = comment;
+    }
 }

@@ -1,6 +1,7 @@
 package kdt.minone.domain.complaint.entity;
 
 import jakarta.persistence.*;
+import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.global.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +21,14 @@ public class ComplaintMemo extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "complaint_id", nullable = false)
+    private Complaint complaint;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
     @Column(length = 50, nullable = false)
     private String title;
 
@@ -27,4 +36,11 @@ public class ComplaintMemo extends BaseEntity {
     private String content;
 
     private boolean isDeleted;
+
+    public ComplaintMemo(Complaint complaint, Employee employee, String title, String content) {
+        this.complaint = complaint;
+        this.employee = employee;
+        this.title = title;
+        this.content = content;
+    }
 }

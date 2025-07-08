@@ -1,12 +1,17 @@
 package kdt.minone.domain.user.entity;
 
 import jakarta.persistence.*;
+import kdt.minone.domain.chat.entity.ChatRoom;
+import kdt.minone.domain.complaint.entity.Complaint;
 import kdt.minone.global.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "citizen")
@@ -33,6 +38,12 @@ public class Citizen extends BaseEntity {
     private String phone;
 
     private boolean isDeleted;
+
+    @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Complaint> complaints = new ArrayList<>();
 
     public Citizen(String email, String name, String password, String phone) {
         this.email = email;

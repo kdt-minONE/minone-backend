@@ -1,12 +1,17 @@
 package kdt.minone.domain.department.entity;
 
 import jakarta.persistence.*;
+import kdt.minone.domain.complaint.entity.Complaint;
+import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.global.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "department")
@@ -24,6 +29,12 @@ public class Department extends BaseEntity {
     private String name;
 
     private boolean isDeleted;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employee> employees = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Complaint> complaints = new ArrayList<>();
 
     public Department(String name) {
         this.name = name;

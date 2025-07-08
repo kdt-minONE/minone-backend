@@ -1,12 +1,17 @@
 package kdt.minone.domain.chat.entity;
 
 import jakarta.persistence.*;
+import kdt.minone.domain.complaint.entity.Complaint;
+import kdt.minone.domain.user.entity.Citizen;
 import kdt.minone.global.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "chat_room")
@@ -20,5 +25,19 @@ public class ChatRoom extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "citizen_id", nullable = false)
+    private Citizen citizen;
+
     private boolean isDeleted;
+
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatHistory> chatHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Complaint> complaints = new ArrayList<>();
+
+    public ChatRoom(Citizen citizen) {
+        this.citizen = citizen;
+    }
 }
