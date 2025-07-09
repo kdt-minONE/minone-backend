@@ -10,14 +10,14 @@ import lombok.RequiredArgsConstructor;
 public class CitizenSignupReqDto {
 
     @Email
-    private String email;
+    private final String email;
 
     @NotBlank
-    private String password;
+    private final String password;
 
     @NotBlank
-    private String name;
+    private final String name;
 
     @NotBlank
-    private String phone;
+    private final String phone;
 }
