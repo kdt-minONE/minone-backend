@@ -1,6 +1,6 @@
 package kdt.minone.domain.department.controller;
 
-import kdt.minone.domain.department.dto.DepartmentEmployeeResDto;
+import kdt.minone.domain.department.dto.DepartmentEmployeeListResDto;
 import kdt.minone.domain.department.service.DepartmentService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +19,11 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @GetMapping("/{departmentId}/employees")
-    public ResponseEntity<BaseResDto<DepartmentEmployeeResDto>> findEmployeeByDepartment(
+    public ResponseEntity<BaseResDto<DepartmentEmployeeListResDto>> findEmployeesById(
             @PathVariable Long departmentId
     ) {
 
-        DepartmentEmployeeResDto result = departmentService.findEmployeeByDepartment(departmentId);
+        DepartmentEmployeeListResDto result = departmentService.findEmployeesById(departmentId);
 
         return new ResponseEntity<>(new BaseResDto<>(
                 "부서별 담당자 전체 조회 성공",

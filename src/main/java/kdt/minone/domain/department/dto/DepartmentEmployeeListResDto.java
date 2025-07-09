@@ -9,15 +9,15 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class DepartmentEmployeeResDto implements BaseDtoDataType {
+public class DepartmentEmployeeListResDto implements BaseDtoDataType {
 
     private final Long departmentId;
     private final String departmentName;
-    private final List<EmployeeDto> employees;
+    private final List<EmployeeDetailResDto> employees;
 
-    public static DepartmentEmployeeResDto toDto(Department department) {
-        List<EmployeeDto> employees = department.getEmployees().stream()
-                .map(employee -> new EmployeeDto(
+    public static DepartmentEmployeeListResDto toDto(Department department) {
+        List<EmployeeDetailResDto> employees = department.getEmployees().stream()
+                .map(employee -> new EmployeeDetailResDto(
                                 employee.getId(),
                                 employee.getEmail(),
                                 employee.getName(),
@@ -27,7 +27,7 @@ public class DepartmentEmployeeResDto implements BaseDtoDataType {
                 )
                 .toList();
 
-        return new DepartmentEmployeeResDto(
+        return new DepartmentEmployeeListResDto(
                 department.getId(),
                 department.getName(),
                 employees

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class EmployeeDto {
+public class EmployeeDetailResDto {
 
     private final Long employeeId;
     private final String email;
