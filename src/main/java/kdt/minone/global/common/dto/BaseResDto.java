@@ -1,11 +1,11 @@
 package kdt.minone.global.common.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
-public class BaseResponseDto <T extends BaseDtoDataType> {
+@RequiredArgsConstructor
+public class BaseResDto<T extends BaseDtoDataType> {
 
     private final String message;
     private final T data;
