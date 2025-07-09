@@ -2,12 +2,13 @@ package kdt.minone.domain.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CitizenSignupReqDto {
+public class AdminSignupReqDto {
 
     @Email
     private final String email;
@@ -20,4 +21,7 @@ public class CitizenSignupReqDto {
 
     @NotBlank
     private final String phone;
+
+    @NotNull
+    private final Long departmentId;
 }
