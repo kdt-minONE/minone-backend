@@ -1,6 +1,7 @@
 package kdt.minone.global.config;
 
 import kdt.minone.global.config.jwt.JwtAuthenticationFilter;
+import kdt.minone.global.enums.EmployeeRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/admin/auth/role/test").hasRole("CITIZEN")
+                        .requestMatchers("/api/v1/master/**").hasRole(EmployeeRole.ADMIN.name())
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
