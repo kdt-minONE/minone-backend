@@ -71,7 +71,7 @@ public class AdminAuthService {
                 employee.getEmail()
         );
 
-        String refreshToken = jwtProvider.createRefreshToken("CITIZEN", employee.getId());
+        String refreshToken = jwtProvider.createRefreshToken(employee.getRole().toString(), employee.getId());
 
         return new AdminLoginResDto(employee, accessToken, refreshToken);
 
