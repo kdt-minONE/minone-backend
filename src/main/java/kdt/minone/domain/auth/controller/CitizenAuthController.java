@@ -1,10 +1,10 @@
 package kdt.minone.domain.auth.controller;
 
 import jakarta.validation.Valid;
-import kdt.minone.domain.auth.dto.CitizenLoginReqDto;
 import kdt.minone.domain.auth.dto.CitizenLoginResDto;
 import kdt.minone.domain.auth.dto.CitizenSignupReqDto;
 import kdt.minone.domain.auth.dto.CitizenSignupResDto;
+import kdt.minone.domain.auth.dto.LoginReqDto;
 import kdt.minone.domain.auth.service.CitizenAuthService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class CitizenAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<BaseResDto<CitizenLoginResDto>> login(
-            @Valid @RequestBody CitizenLoginReqDto dto
+            @Valid @RequestBody LoginReqDto dto
     ) {
 
         CitizenLoginResDto result = citizenAuthService.login(

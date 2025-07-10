@@ -1,8 +1,10 @@
 package kdt.minone.domain.auth.controller;
 
 import jakarta.validation.Valid;
+import kdt.minone.domain.auth.dto.AdminLoginResDto;
 import kdt.minone.domain.auth.dto.AdminSignupReqDto;
 import kdt.minone.domain.auth.dto.AdminSignupResDto;
+import kdt.minone.domain.auth.dto.LoginReqDto;
 import kdt.minone.domain.auth.service.AdminAuthService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +36,21 @@ public class AdminAuthController {
         );
 
         return new ResponseEntity<>(new BaseResDto<>("success", result), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<BaseResDto<AdminLoginResDto>> login(
+            @Valid @RequestBody LoginReqDto dto
+    ) {
+
+        AdminLoginResDto result = adminAuthService.login(
+                dto.getEmail(),
+                dto.getPassword()
+        );
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "login success",
+                result
+        ), HttpStatus.OK);
     }
 }
