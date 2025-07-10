@@ -1,6 +1,7 @@
 package kdt.minone.domain.department.dto;
 
 import kdt.minone.domain.department.entity.Department;
+import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.global.common.dto.BaseDtoDataType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,22 +16,11 @@ public class DepartmentEmployeeListResDto implements BaseDtoDataType {
     private final String departmentName;
     private final List<EmployeeDetailResDto> employees;
 
-    public static DepartmentEmployeeListResDto toDto(Department department) {
-        List<EmployeeDetailResDto> employees = department.getEmployees().stream()
-                .map(employee -> new EmployeeDetailResDto(
-                                employee.getId(),
-                                employee.getEmail(),
-                                employee.getName(),
-                                employee.getPhone(),
-                                employee.getRole().name()
-                        )
-                )
+    public DepartmentEmployeeListResDto(Department department, List<Employee> employees) {
+        this.departmentId = department.getId();
+        this.departmentName = department.getName();
+        this.employees = employees.stream()
+                .map(EmployeeDetailResDto::from)
                 .toList();
-
-        return new DepartmentEmployeeListResDto(
-                department.getId(),
-                department.getName(),
-                employees
-        );
     }
 }
