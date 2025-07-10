@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CitizenLoginReqDto {
+public class LoginReqDto {
 
     @NotBlank
     private final String email;
