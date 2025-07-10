@@ -1,6 +1,8 @@
 package kdt.minone.domain.auth.controller;
 
 import jakarta.validation.Valid;
+import kdt.minone.domain.auth.dto.CitizenLoginReqDto;
+import kdt.minone.domain.auth.dto.CitizenLoginResDto;
 import kdt.minone.domain.auth.dto.CitizenSignupReqDto;
 import kdt.minone.domain.auth.dto.CitizenSignupResDto;
 import kdt.minone.domain.auth.service.CitizenAuthService;
@@ -36,5 +38,21 @@ public class CitizenAuthController {
                 "signup success",
                 result
         ), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<BaseResDto<CitizenLoginResDto>> login(
+            @Valid @RequestBody CitizenLoginReqDto dto
+    ) {
+
+        CitizenLoginResDto result = citizenAuthService.login(
+                dto.getEmail(),
+                dto.getPassword()
+        );
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "login success",
+                result
+        ), HttpStatus.OK);
     }
 }
