@@ -13,7 +13,7 @@ public class AdminService {
     private final EmployeeRepository employeeRepository;
 
     @Transactional
-    public void deleteEmployee(Long employeeId) {
+    public void deleteEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findByIdOrElseThrow(employeeId);
         employeeRepository.delete(employee);
     }

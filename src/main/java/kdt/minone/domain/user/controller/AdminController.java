@@ -17,11 +17,11 @@ public class AdminController {
     private final AdminService adminService;
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<Void> deleteEmployee(
+    public ResponseEntity<Void> deleteEmployeeById(
             @PathVariable Long employeeId
     ) {
 
-        adminService.deleteEmployee(employeeId);
+        adminService.deleteEmployeeById(employeeId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
