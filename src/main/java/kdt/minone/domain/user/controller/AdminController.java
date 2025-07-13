@@ -1,6 +1,5 @@
 package kdt.minone.domain.user.controller;
 
-import jakarta.validation.Valid;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminReqDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.service.AdminService;
@@ -30,7 +29,7 @@ public class AdminController {
     @PatchMapping("/{employeeId}")
     public ResponseEntity<BaseResDto<EmployeeUpdateByAdminResDto>> updateEmployeeById(
             @PathVariable Long employeeId,
-            @Valid @RequestBody EmployeeUpdateByAdminReqDto dto
+            @RequestBody EmployeeUpdateByAdminReqDto dto
     ) {
 
         EmployeeUpdateByAdminResDto result = adminService.updateEmployeeById(
