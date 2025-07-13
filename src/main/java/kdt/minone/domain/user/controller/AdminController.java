@@ -1,13 +1,14 @@
 package kdt.minone.domain.user.controller;
 
+import jakarta.validation.Valid;
+import kdt.minone.domain.user.dto.EmployeeUpdateByAdminReqDto;
+import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.service.AdminService;
+import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +25,23 @@ public class AdminController {
         adminService.deleteEmployeeById(employeeId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/{employeeId}")
+    public ResponseEntity<BaseResDto<EmployeeUpdateByAdminResDto>> updateEmployeeById(
+            @PathVariable Long employeeId,
+            @Valid @RequestBody EmployeeUpdateByAdminReqDto dto
+    ) {
+
+        EmployeeUpdateByAdminResDto result = adminService.updateEmployeeById(
+                employeeId,
+                dto.getDepartmentId(),
+                dto.getRole()
+        );
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "employee update success",
+                result
+        ), HttpStatus.OK);
     }
 }

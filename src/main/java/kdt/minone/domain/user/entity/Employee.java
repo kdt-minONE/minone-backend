@@ -70,6 +70,14 @@ public class Employee extends BaseEntity {
         this.phone = phone;
     }
 
+    public void changeDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void changeRole(String role) {
+        this.role = EmployeeRole.valueOf(role.toUpperCase());
+    }
+
     private void assignDefaultRole() {
         if (this.role == null) {
             this.role = EmployeeRole.EMPLOYEE;
