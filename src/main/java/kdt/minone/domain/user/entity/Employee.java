@@ -75,7 +75,7 @@ public class Employee extends BaseEntity {
     }
 
     public void changeRole(String role) {
-        this.role = EmployeeRole.valueOf(role.toUpperCase());
+        this.role = EmployeeRole.of(role.toUpperCase());
     }
 
     private void assignDefaultRole() {
