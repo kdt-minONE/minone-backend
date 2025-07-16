@@ -66,14 +66,40 @@ public class AdminAuthService {
 
         Employee employee = userDetails.getEmployee();
 
-        String accessToken = jwtProvider.createCitizenAccessToken(
+        String accessToken = jwtProvider.createEmployeeAccessToken(
                 employee.getId(),
-                employee.getEmail()
+                employee.getEmail(),
+                employee.getRole(),
+                employee.getDepartment().getId()
         );
 
         String refreshToken = jwtProvider.createRefreshToken(employee.getRole().toString(), employee.getId());
 
         return new AdminLoginResDto(employee, accessToken, refreshToken);
 
+    }
+
+    public AdminLoginResDto refresh(String refreshToken) {
+
+        // TODO: validateToken -> validateRefreshToken (add valid refreshToken using redis)
+        if (!jwtProvider.validateToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid token");
+        }
+
+        String email = jwtProvider.getUserEmail(refreshToken);
+
+        Employee employee = employeeRepository.findByEmail(email).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "not exists")
+        );
+        
+        String newAccessToken = jwtProvider.createEmployeeAccessToken(
+                employee.getId(),
+                employee.getEmail(),
+                employee.getRole(),
+                employee.getDepartment().getId()
+        );
+        String newRefreshToken = jwtProvider.createRefreshToken(employee.getRole().toString(), employee.getId());
+
+        return new AdminLoginResDto(employee, newAccessToken, newRefreshToken);
     }
 }
