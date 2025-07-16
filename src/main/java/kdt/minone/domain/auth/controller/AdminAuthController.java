@@ -1,10 +1,7 @@
 package kdt.minone.domain.auth.controller;
 
 import jakarta.validation.Valid;
-import kdt.minone.domain.auth.dto.AdminLoginResDto;
-import kdt.minone.domain.auth.dto.AdminSignupReqDto;
-import kdt.minone.domain.auth.dto.AdminSignupResDto;
-import kdt.minone.domain.auth.dto.LoginReqDto;
+import kdt.minone.domain.auth.dto.*;
 import kdt.minone.domain.auth.service.AdminAuthService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +47,19 @@ public class AdminAuthController {
 
         return new ResponseEntity<>(new BaseResDto<>(
                 "login success",
+                result
+        ), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<BaseResDto<AdminLoginResDto>> refresh(
+            @Valid @RequestBody RefreshReqDto dto
+    ) {
+
+        AdminLoginResDto result = adminAuthService.refresh(dto.getRefreshToken());
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "refresh success",
                 result
         ), HttpStatus.OK);
     }
