@@ -1,10 +1,7 @@
 package kdt.minone.domain.auth.controller;
 
 import jakarta.validation.Valid;
-import kdt.minone.domain.auth.dto.CitizenLoginResDto;
-import kdt.minone.domain.auth.dto.CitizenSignupReqDto;
-import kdt.minone.domain.auth.dto.CitizenSignupResDto;
-import kdt.minone.domain.auth.dto.LoginReqDto;
+import kdt.minone.domain.auth.dto.*;
 import kdt.minone.domain.auth.service.CitizenAuthService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +49,19 @@ public class CitizenAuthController {
 
         return new ResponseEntity<>(new BaseResDto<>(
                 "login success",
+                result
+        ), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<BaseResDto<CitizenLoginResDto>> refresh(
+            @Valid @RequestBody RefreshReqDto dto
+    ) {
+
+        CitizenLoginResDto result = citizenAuthService.refresh(dto.getRefreshToken());
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "refresh success",
                 result
         ), HttpStatus.OK);
     }

@@ -70,4 +70,26 @@ public class CitizenAuthService {
 
         return new CitizenLoginResDto(citizen.getId(), accessToken, refreshToken, citizen.getEmail(), citizen.getName(), "CITIZEN");
     }
+
+    public CitizenLoginResDto refresh(String refreshToken) {
+
+        // TODO: validateToken -> validateRefreshToken (add valid refreshToken using redis)
+        if (!jwtProvider.validateToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid token");
+        }
+
+        String email = jwtProvider.getUserEmail(refreshToken);
+        Citizen citizen = citizenRepository.findByEmail(email).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "not exists")
+        );
+
+        String newAccessToken = jwtProvider.createCitizenAccessToken(
+                citizen.getId(),
+                citizen.getEmail()
+        );
+
+        String newRefreshToken = jwtProvider.createRefreshToken("CITIZEN", citizen.getId());
+
+        return new CitizenLoginResDto(citizen.getId(), newAccessToken, newRefreshToken, citizen.getEmail(), citizen.getName(), "CITIZEN");
+    }
 }
