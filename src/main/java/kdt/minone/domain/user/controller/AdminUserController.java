@@ -2,7 +2,6 @@ package kdt.minone.domain.user.controller;
 
 import kdt.minone.domain.auth.dto.AdminSignupResDto;
 import kdt.minone.domain.user.entity.Employee;
-import kdt.minone.domain.user.service.AdminService;
 import kdt.minone.global.common.dto.BaseResDto;
 import kdt.minone.global.config.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/users")
 public class AdminUserController {
-
-    private final AdminService adminService;
 
     @GetMapping("/me")
     public ResponseEntity<BaseResDto<AdminSignupResDto>> getAdmin(Authentication authentication) {
