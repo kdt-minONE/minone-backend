@@ -6,8 +6,11 @@ import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.domain.user.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +18,7 @@ public class AdminService {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void deleteEmployeeById(Long employeeId) {
@@ -42,5 +46,17 @@ public class AdminService {
         if (role != null) {
             employee.changeRole(role);
         }
+    }
+
+    @Transactional
+    public void updateEmployeePassword(Long id, String oldPassword, String newPassword) {
+
+        Employee employee = employeeRepository.findByIdOrElseThrow(id);
+
+        if (!passwordEncoder.matches(oldPassword, employee.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "wrong password");
+        }
+
+        employee.updatePassword(passwordEncoder.encode(newPassword));
     }
 }

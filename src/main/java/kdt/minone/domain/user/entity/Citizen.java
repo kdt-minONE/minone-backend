@@ -51,4 +51,8 @@ public class Citizen extends BaseEntity {
         this.password = password;
         this.phone = phone;
     }
+
+    public void updatePassword(String encoded) {
+        this.password = encoded;
+    }
 }
