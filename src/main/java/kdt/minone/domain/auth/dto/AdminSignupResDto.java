@@ -16,6 +16,8 @@ public class AdminSignupResDto implements BaseDtoDataType {
     private final String name;
     private final String phone;
     private final String role;
+    private final Long departmentId;
+    private final String departmentName;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -25,6 +27,8 @@ public class AdminSignupResDto implements BaseDtoDataType {
         this.name = employee.getName();
         this.phone = employee.getPhone();
         this.role = employee.getRole().toString();
+        this.departmentId = employee.getDepartment().getId();
+        this.departmentName = employee.getDepartment().getName();
         this.createdAt = employee.getCreatedAt();
         this.updatedAt = employee.getUpdatedAt();
     }

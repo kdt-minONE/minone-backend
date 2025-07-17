@@ -1,11 +1,13 @@
 package kdt.minone.domain.user.controller;
 
 import jakarta.validation.Valid;
+import kdt.minone.domain.auth.dto.CitizenSignupResDto;
 import kdt.minone.domain.user.dto.CitizenUpdateReqDto;
 import kdt.minone.domain.user.entity.Citizen;
 import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.domain.user.service.AdminService;
 import kdt.minone.domain.user.service.CitizenService;
+import kdt.minone.global.common.dto.BaseResDto;
 import kdt.minone.global.config.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,17 @@ public class UserController {
 
     private final CitizenService citizenService;
     private final AdminService adminService;
+
+    @GetMapping("/me")
+    public ResponseEntity<BaseResDto<CitizenSignupResDto>> getUser(Authentication authentication) {
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Citizen citizen = userDetails.getCitizen();
+
+        CitizenSignupResDto result = new CitizenSignupResDto(citizen);
+
+        return new ResponseEntity<>(new BaseResDto<>("success get user data", result), HttpStatus.OK);
+    }
 
     @PatchMapping("/me")
     public ResponseEntity<Void> patchUserPassword(
