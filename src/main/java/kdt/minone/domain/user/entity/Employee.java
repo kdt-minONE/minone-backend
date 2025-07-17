@@ -83,4 +83,8 @@ public class Employee extends BaseEntity {
             this.role = EmployeeRole.EMPLOYEE;
         }
     }
+
+    public void updatePassword(String encoded) {
+        this.password = encoded;
+    }
 }

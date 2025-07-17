@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/master/**").hasRole(EmployeeRole.ADMIN.name())
+                        .requestMatchers("/api/v1/admin/**").hasRole(EmployeeRole.EMPLOYEE.name())
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
