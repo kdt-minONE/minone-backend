@@ -2,15 +2,20 @@ package kdt.minone.domain.user.service;
 
 import kdt.minone.domain.department.entity.Department;
 import kdt.minone.domain.department.repository.DepartmentRepository;
+import kdt.minone.domain.user.dto.EmployeeListResDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.domain.user.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +24,13 @@ public class AdminService {
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional(readOnly = true)
+    public List<EmployeeListResDto> findAllWithDepartment(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        return employeeRepository.findAllWithDepartment(pageable).stream().toList();
+    }
 
     @Transactional
     public void deleteEmployeeById(Long employeeId) {
