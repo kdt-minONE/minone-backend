@@ -1,13 +1,17 @@
 package kdt.minone.domain.user.controller;
 
+import kdt.minone.domain.user.dto.EmployeeListResDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminReqDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.service.AdminService;
+import kdt.minone.global.common.dto.BaseListResDto;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +19,20 @@ import org.springframework.web.bind.annotation.*;
 public class MasterUserController {
 
     private final AdminService adminService;
+
+    @GetMapping
+    public ResponseEntity<BaseListResDto<EmployeeListResDto>> findAllWithDepartment(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+
+        List<EmployeeListResDto> results = adminService.findAllWithDepartment(page, size);
+
+        return new ResponseEntity<>(new BaseListResDto<>(
+                "공무원 전체 조회 완료",
+                results
+        ), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{employeeId}")
     public ResponseEntity<Void> deleteEmployeeById(
