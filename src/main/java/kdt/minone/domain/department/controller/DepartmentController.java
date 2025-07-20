@@ -1,7 +1,9 @@
 package kdt.minone.domain.department.controller;
 
 import kdt.minone.domain.department.dto.DepartmentEmployeeListResDto;
+import kdt.minone.domain.department.dto.DepartmentResDto;
 import kdt.minone.domain.department.service.DepartmentService;
+import kdt.minone.global.common.dto.BaseListResDto;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,12 +13,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/departments")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+
+    @GetMapping
+    public ResponseEntity<BaseListResDto<DepartmentResDto>> findAll() {
+        List<DepartmentResDto> results = departmentService.findAll();
+
+        return new ResponseEntity<>(new BaseListResDto<>(
+                "부서 전체 조회 성공",
+                results
+        ), HttpStatus.OK);
+    }
 
     @GetMapping("/{departmentId}/employees")
     public ResponseEntity<BaseResDto<DepartmentEmployeeListResDto>> findEmployeesById(
