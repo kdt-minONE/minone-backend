@@ -2,6 +2,7 @@ package kdt.minone.domain.user.service;
 
 import kdt.minone.domain.department.entity.Department;
 import kdt.minone.domain.department.repository.DepartmentRepository;
+import kdt.minone.domain.user.dto.EmployeeDetailResDto;
 import kdt.minone.domain.user.dto.EmployeeListResDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
 import kdt.minone.domain.user.entity.Employee;
@@ -30,6 +31,13 @@ public class AdminService {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         return employeeRepository.findAllWithDepartment(pageable).stream().toList();
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeDetailResDto findEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findByIdOrElseThrow(employeeId);
+
+        return new EmployeeDetailResDto(employee);
     }
 
     @Transactional

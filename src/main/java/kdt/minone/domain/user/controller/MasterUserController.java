@@ -1,5 +1,6 @@
 package kdt.minone.domain.user.controller;
 
+import kdt.minone.domain.user.dto.EmployeeDetailResDto;
 import kdt.minone.domain.user.dto.EmployeeListResDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminReqDto;
 import kdt.minone.domain.user.dto.EmployeeUpdateByAdminResDto;
@@ -31,6 +32,19 @@ public class MasterUserController {
         return new ResponseEntity<>(new BaseListResDto<>(
                 "공무원 전체 조회 완료",
                 results
+        ), HttpStatus.OK);
+    }
+
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<BaseResDto<EmployeeDetailResDto>> findEmployeeById(
+            @PathVariable Long employeeId
+    ) {
+
+        EmployeeDetailResDto result = adminService.findEmployeeById(employeeId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "공무원 단건 조회 완료",
+                result
         ), HttpStatus.OK);
     }
 
