@@ -3,6 +3,7 @@ package kdt.minone.domain.complaint.controller;
 import jakarta.validation.Valid;
 import kdt.minone.domain.complaint.dto.ComplaintMemoCreateReqDto;
 import kdt.minone.domain.complaint.dto.ComplaintMemoDetailResDto;
+import kdt.minone.domain.complaint.dto.ComplaintMemoUpdateReqDto;
 import kdt.minone.domain.complaint.service.ComplaintMemoService;
 import kdt.minone.domain.user.entity.Employee;
 import kdt.minone.global.common.dto.BaseResDto;
@@ -41,5 +42,25 @@ public class ComplaintMemoController {
                 "메모 작성 성공",
                 result
         ), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{memoId}")
+    public ResponseEntity<BaseResDto<ComplaintMemoDetailResDto>> updateMemoById(
+            @PathVariable Long complaintId,
+            @PathVariable Long memoId,
+            @RequestBody ComplaintMemoUpdateReqDto dto
+    ) {
+
+        ComplaintMemoDetailResDto result = complaintMemoService.updateMemoById(
+                complaintId,
+                memoId,
+                dto.getTitle(),
+                dto.getContent()
+        );
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "메모 수정 성공",
+                result
+        ), HttpStatus.OK);
     }
 }
