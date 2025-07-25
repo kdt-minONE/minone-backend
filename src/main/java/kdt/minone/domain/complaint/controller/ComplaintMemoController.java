@@ -63,4 +63,15 @@ public class ComplaintMemoController {
                 result
         ), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{memoId}")
+    public ResponseEntity<Void> deleteMemoById(
+            @PathVariable Long complaintId,
+            @PathVariable Long memoId
+    ) {
+
+        complaintMemoService.deleteMemoId(complaintId, memoId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
