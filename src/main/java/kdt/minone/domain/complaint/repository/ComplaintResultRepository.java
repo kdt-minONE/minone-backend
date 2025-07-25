@@ -4,4 +4,6 @@ import kdt.minone.domain.complaint.entity.ComplaintResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ComplaintResultRepository extends JpaRepository<ComplaintResult, Long> {
+
+    boolean existsByComplaintId(Long complaintId);
 }
