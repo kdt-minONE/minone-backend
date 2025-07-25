@@ -43,4 +43,14 @@ public class ComplaintMemo extends BaseEntity {
         this.title = title;
         this.content = content;
     }
+
+    public void updateMemo(String title, String content) {
+        if (title != null) {
+            this.title = title;
+        }
+
+        if (content != null) {
+            this.content = content;
+        }
+    }
 }
