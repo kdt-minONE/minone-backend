@@ -33,4 +33,15 @@ public class ComplaintResultController {
                 result
         ), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{resultId}")
+    public ResponseEntity<Void> deleteResultById(
+            @PathVariable Long complaintId,
+            @PathVariable Long resultId
+    ) {
+
+        complaintResultService.deleteResultById(complaintId, resultId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
