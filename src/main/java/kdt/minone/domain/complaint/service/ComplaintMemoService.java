@@ -40,7 +40,7 @@ public class ComplaintMemoService {
     }
 
     @Transactional
-    public void deleteMemoId(Long complaintId, Long memoId) {
+    public void deleteMemoById(Long complaintId, Long memoId) {
         ComplaintMemo memo = complaintMemoRepository.findByIdAndComplaintId(memoId, complaintId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
 

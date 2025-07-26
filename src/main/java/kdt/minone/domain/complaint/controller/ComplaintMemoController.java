@@ -70,7 +70,7 @@ public class ComplaintMemoController {
             @PathVariable Long memoId
     ) {
 
-        complaintMemoService.deleteMemoId(complaintId, memoId);
+        complaintMemoService.deleteMemoById(complaintId, memoId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
