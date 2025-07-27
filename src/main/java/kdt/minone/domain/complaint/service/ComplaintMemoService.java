@@ -40,6 +40,14 @@ public class ComplaintMemoService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public ComplaintMemoDetailResDto findMemoById(Long complaintId, Long memoId) {
+        ComplaintMemo memo = complaintMemoRepository.findByIdAndComplaintId(memoId, complaintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        return new ComplaintMemoDetailResDto(memo);
+    }
+
     @Transactional
     public ComplaintMemoDetailResDto updateMemoById(Long complaintId, Long memoId, String title, String content) {
         ComplaintMemo memo = complaintMemoRepository.findByIdAndComplaintId(memoId, complaintId)

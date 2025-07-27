@@ -60,6 +60,20 @@ public class ComplaintMemoController {
         ), HttpStatus.OK);
     }
 
+    @GetMapping("/{memoId}")
+    public ResponseEntity<BaseResDto<ComplaintMemoDetailResDto>> findMemoById(
+            @PathVariable Long complaintId,
+            @PathVariable Long memoId
+    ) {
+
+        ComplaintMemoDetailResDto result = complaintMemoService.findMemoById(complaintId, memoId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "메모 단건 조회 성공",
+                result
+        ), HttpStatus.OK);
+    }
+
     @PatchMapping("/{memoId}")
     public ResponseEntity<BaseResDto<ComplaintMemoDetailResDto>> updateMemoById(
             @PathVariable Long complaintId,
