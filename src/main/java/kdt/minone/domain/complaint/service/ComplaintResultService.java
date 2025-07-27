@@ -32,4 +32,12 @@ public class ComplaintResultService {
 
         return new ComplaintResultDetailResDto(result);
     }
+
+    @Transactional
+    public void deleteResultById(Long complaintId, Long resultId) {
+        ComplaintResult result = complaintResultRepository.findByIdAndComplaintId(resultId, complaintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        complaintResultRepository.delete(result);
+    }
 }
