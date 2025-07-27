@@ -40,4 +40,22 @@ public class ComplaintResultService {
 
         complaintResultRepository.delete(result);
     }
+
+    @Transactional
+    public ComplaintResultDetailResDto updateResultById(Long complaintId, Long resultId, String content) {
+        ComplaintResult result = complaintResultRepository.findByIdAndComplaintId(resultId, complaintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        result.updateResult(content);
+
+        return new ComplaintResultDetailResDto(result);
+    }
+
+    @Transactional(readOnly = true)
+    public ComplaintResultDetailResDto findResultById(Long complaintId, Long resultId) {
+        ComplaintResult result = complaintResultRepository.findByIdAndComplaintId(resultId, complaintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        return new ComplaintResultDetailResDto(result);
+    }
 }

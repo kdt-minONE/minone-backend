@@ -39,4 +39,8 @@ public class ComplaintResult extends BaseEntity {
         this.complaint = complaint;
         this.content = content;
     }
+
+    public void updateResult(String content) {
+        this.content = content;
+    }
 }
