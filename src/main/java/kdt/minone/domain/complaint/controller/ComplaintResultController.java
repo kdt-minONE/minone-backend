@@ -64,4 +64,18 @@ public class ComplaintResultController {
                 result
         ), HttpStatus.OK);
     }
+
+    @GetMapping("/{resultId}")
+    public ResponseEntity<BaseResDto<ComplaintResultDetailResDto>> findResultById(
+            @PathVariable Long complaintId,
+            @PathVariable Long resultId
+    ) {
+
+        ComplaintResultDetailResDto result = complaintResultService.findResultById(complaintId, resultId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "처리 결과 단건 조회 성공",
+                result
+        ), HttpStatus.OK);
+    }
 }
