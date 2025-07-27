@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ComplaintMemoService {
@@ -25,6 +27,23 @@ public class ComplaintMemoService {
 
         ComplaintMemo memo = new ComplaintMemo(complaint, employee, title, content);
         complaintMemoRepository.save(memo);
+
+        return new ComplaintMemoDetailResDto(memo);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ComplaintMemoDetailResDto> findAll(Long complaintId) {
+        List<ComplaintMemo> memos = complaintMemoRepository.findAllByComplaintId(complaintId);
+
+        return memos.stream()
+                .map(ComplaintMemoDetailResDto::new)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ComplaintMemoDetailResDto findMemoById(Long complaintId, Long memoId) {
+        ComplaintMemo memo = complaintMemoRepository.findByIdAndComplaintId(memoId, complaintId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
 
         return new ComplaintMemoDetailResDto(memo);
     }

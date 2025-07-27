@@ -6,6 +6,7 @@ import kdt.minone.domain.complaint.dto.ComplaintMemoDetailResDto;
 import kdt.minone.domain.complaint.dto.ComplaintMemoUpdateReqDto;
 import kdt.minone.domain.complaint.service.ComplaintMemoService;
 import kdt.minone.domain.user.entity.Employee;
+import kdt.minone.global.common.dto.BaseListResDto;
 import kdt.minone.global.common.dto.BaseResDto;
 import kdt.minone.global.config.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +45,33 @@ public class ComplaintMemoController {
                 "메모 작성 성공",
                 result
         ), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<BaseListResDto<ComplaintMemoDetailResDto>> findAll(
+            @PathVariable Long complaintId
+    ) {
+
+        List<ComplaintMemoDetailResDto> results = complaintMemoService.findAll(complaintId);
+
+        return new ResponseEntity<>(new BaseListResDto<>(
+                "메모 전체 조회 성공",
+                results
+        ), HttpStatus.OK);
+    }
+
+    @GetMapping("/{memoId}")
+    public ResponseEntity<BaseResDto<ComplaintMemoDetailResDto>> findMemoById(
+            @PathVariable Long complaintId,
+            @PathVariable Long memoId
+    ) {
+
+        ComplaintMemoDetailResDto result = complaintMemoService.findMemoById(complaintId, memoId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "메모 단건 조회 성공",
+                result
+        ), HttpStatus.OK);
     }
 
     @PatchMapping("/{memoId}")
