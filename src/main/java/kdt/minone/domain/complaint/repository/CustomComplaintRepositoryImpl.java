@@ -71,8 +71,9 @@ public class CustomComplaintRepositoryImpl implements CustomComplaintRepository 
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        Long total = Optional.ofNullable(jpaQueryFactory.select(employee.count())
-                .from(employee)
+        Long total = Optional.ofNullable(jpaQueryFactory.select(complaint.count())
+                .from(complaint)
+                .where(conditions)
                 .fetchOne()
         ).orElse(0L);
 
