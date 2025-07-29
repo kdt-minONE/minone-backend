@@ -1,8 +1,10 @@
 package kdt.minone.domain.complaint.controller;
 
+import kdt.minone.domain.complaint.dto.CitizenComplaintDetailResDto;
 import kdt.minone.domain.complaint.dto.CitizenComplaintListResDto;
 import kdt.minone.domain.complaint.service.UserComplaintService;
 import kdt.minone.global.common.dto.BaseListResDto;
+import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,20 @@ public class UserComplaintController {
         return new ResponseEntity<>(new BaseListResDto<>(
                 "시민 민원 전체 조회 성공",
                 results
+        ), HttpStatus.OK);
+    }
+
+    @GetMapping("/{complaintId}")
+    public ResponseEntity<BaseResDto<CitizenComplaintDetailResDto>> findComplaintById(
+            @PathVariable Long userId,
+            @PathVariable Long complaintId
+    ) {
+
+        CitizenComplaintDetailResDto result = userComplaintService.findComplaintById(userId, complaintId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "시민 민원 단건 조회 성공",
+                result
         ), HttpStatus.OK);
     }
 }

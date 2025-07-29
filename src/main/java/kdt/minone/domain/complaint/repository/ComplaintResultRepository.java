@@ -10,4 +10,6 @@ public interface ComplaintResultRepository extends JpaRepository<ComplaintResult
     boolean existsByComplaintId(Long complaintId);
 
     Optional<ComplaintResult> findByIdAndComplaintId(Long resultId, Long complaintId);
+
+    Optional<ComplaintResult> findByComplaintId(Long complaintId);
 }
