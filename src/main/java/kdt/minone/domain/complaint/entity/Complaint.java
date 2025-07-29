@@ -81,12 +81,11 @@ public class Complaint extends BaseEntity {
     private List<ComplaintMemo> complaintMemos = new ArrayList<>();
 
     public Complaint(ChatRoom chatRoom, Citizen citizen, Department department, Employee employee,
-                     String complaintNo, String address, String title, String content, ComplaintStatus status, int priorityScore) {
+                     String address, String title, String content, ComplaintStatus status, int priorityScore) {
         this.chatRoom = chatRoom;
         this.citizen = citizen;
         this.department = department;
         this.employee = employee;
-        this.complaintNo = complaintNo;
         this.address = address;
         this.title = title;
         this.content = content;
