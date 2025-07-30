@@ -1,15 +1,13 @@
 package kdt.minone.domain.complaint.controller;
 
+import kdt.minone.domain.complaint.dto.EmployeeComplaintDetailResDto;
 import kdt.minone.domain.complaint.dto.EmployeeComplaintListResDto;
 import kdt.minone.domain.complaint.service.AdminComplaintService;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +35,19 @@ public class AdminComplaintController {
 
         return new ResponseEntity<>(new BaseResDto<>(
                 "민원 전체 조회 성공",
+                result
+        ), HttpStatus.OK);
+    }
+
+    @GetMapping("/{complaintId}")
+    public ResponseEntity<BaseResDto<EmployeeComplaintDetailResDto>> findComplaintById(
+            @PathVariable Long complaintId
+    ) {
+
+        EmployeeComplaintDetailResDto result = adminComplaintService.findComplaintById(complaintId);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "민원 단건 조회 성공",
                 result
         ), HttpStatus.OK);
     }
