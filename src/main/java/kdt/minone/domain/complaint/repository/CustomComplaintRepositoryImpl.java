@@ -3,7 +3,10 @@ package kdt.minone.domain.complaint.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kdt.minone.domain.complaint.dto.CitizenComplaintListResDto;
+import kdt.minone.domain.complaint.dto.EmployeeComplaintDetailResDto;
+import kdt.minone.domain.complaint.dto.EmployeeComplaintListResDto;
 import kdt.minone.domain.complaint.dto.QCitizenComplaintListResDto;
+import kdt.minone.domain.complaint.entity.Complaint;
 import kdt.minone.domain.complaint.entity.QComplaint;
 import kdt.minone.domain.complaint.entity.QComplaintResult;
 import kdt.minone.domain.department.entity.QDepartment;
@@ -78,5 +81,47 @@ public class CustomComplaintRepositoryImpl implements CustomComplaintRepository 
         ).orElse(0L);
 
         return new PageImpl<>(complaints, pageable, total);
+    }
+
+    @Override
+    public EmployeeComplaintListResDto searchComplaintsByAdmin(Pageable pageable, Long employeeId, Long departmentId, String status) {
+        QComplaint complaint = QComplaint.complaint;
+        QDepartment department = QDepartment.department;
+
+        BooleanBuilder conditions = new BooleanBuilder();
+
+        if (employeeId != null) {
+            conditions.and(complaint.employee.id.eq(employeeId));
+        }
+
+        if (departmentId != null) {
+            conditions.and(complaint.department.id.eq(departmentId));
+        }
+
+        if (status != null) {
+            ComplaintStatus enumStatus = ComplaintStatus.of(status.toUpperCase());
+            conditions.and(complaint.status.eq(enumStatus));
+        }
+
+        List<Complaint> complaints = jpaQueryFactory
+                .selectFrom(complaint)
+                .innerJoin(department).on(complaint.department.id.eq(department.id)).fetchJoin()
+                .where(conditions)
+                .orderBy(complaint.priorityScore.desc(), complaint.createdAt.desc(), complaint.complaintNo.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = Optional.ofNullable(jpaQueryFactory.select(complaint.count())
+                .from(complaint)
+                .where(conditions)
+                .fetchOne()
+        ).orElse(0L);
+
+        List<EmployeeComplaintDetailResDto> dtoList = complaints.stream()
+                .map(EmployeeComplaintDetailResDto::new)
+                .toList();
+
+        return new EmployeeComplaintListResDto(total, dtoList);
     }
 }
