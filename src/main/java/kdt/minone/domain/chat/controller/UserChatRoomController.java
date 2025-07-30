@@ -34,4 +34,15 @@ public class UserChatRoomController {
                 result
         ), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{chatRoomId}")
+    public ResponseEntity<Void> deleteChatRoomById(
+            @PathVariable Long userId,
+            @PathVariable Long chatRoomId
+    ) {
+
+        userChatRoomService.deleteChatRoomById(userId, chatRoomId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

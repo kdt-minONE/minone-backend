@@ -24,4 +24,12 @@ public class UserChatRoomService {
 
         return new ChatRoomResDto(chatRoom);
     }
+
+    @Transactional
+    public void deleteChatRoomById(Long userId, Long chatRoomId) {
+        ChatRoom chatRoom = chatRoomRepository.findByIdAndCitizenId(chatRoomId, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        chatRoomRepository.delete(chatRoom);
+    }
 }
