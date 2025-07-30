@@ -1,6 +1,7 @@
 package kdt.minone.domain.complaint.dto;
 
 import kdt.minone.domain.complaint.entity.Complaint;
+import kdt.minone.global.common.dto.BaseDtoDataType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,10 +9,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public class EmployeeComplaintDetailResDto {
+public class EmployeeComplaintDetailResDto implements BaseDtoDataType {
 
     private final Long id;
     private final String complaintNo;
+    private final Long citizenId;
+    private final String citizenName;
+    private final String citizenPhone;
     private final Long departmentId;
     private final String departmentName;
     private final String address;
@@ -25,6 +29,9 @@ public class EmployeeComplaintDetailResDto {
     public EmployeeComplaintDetailResDto(Complaint complaint) {
         this.id = complaint.getId();
         this.complaintNo = complaint.getComplaintNo();
+        this.citizenId = complaint.getCitizen().getId();
+        this.citizenName = complaint.getCitizen().getName();
+        this.citizenPhone = complaint.getCitizen().getPhone();
         this.departmentId = complaint.getDepartment().getId();
         this.departmentName = complaint.getDepartment().getName();
         this.address = complaint.getAddress();

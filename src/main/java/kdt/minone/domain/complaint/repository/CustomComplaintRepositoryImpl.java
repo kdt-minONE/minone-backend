@@ -10,6 +10,7 @@ import kdt.minone.domain.complaint.entity.Complaint;
 import kdt.minone.domain.complaint.entity.QComplaint;
 import kdt.minone.domain.complaint.entity.QComplaintResult;
 import kdt.minone.domain.department.entity.QDepartment;
+import kdt.minone.domain.user.entity.QCitizen;
 import kdt.minone.domain.user.entity.QEmployee;
 import kdt.minone.global.enums.ComplaintStatus;
 import lombok.RequiredArgsConstructor;
@@ -87,6 +88,7 @@ public class CustomComplaintRepositoryImpl implements CustomComplaintRepository 
     public EmployeeComplaintListResDto searchComplaintsByAdmin(Pageable pageable, Long employeeId, Long departmentId, String status) {
         QComplaint complaint = QComplaint.complaint;
         QDepartment department = QDepartment.department;
+        QCitizen citizen = QCitizen.citizen;
 
         BooleanBuilder conditions = new BooleanBuilder();
 
@@ -105,7 +107,8 @@ public class CustomComplaintRepositoryImpl implements CustomComplaintRepository 
 
         List<Complaint> complaints = jpaQueryFactory
                 .selectFrom(complaint)
-                .innerJoin(department).on(complaint.department.id.eq(department.id)).fetchJoin()
+                .innerJoin(complaint.department, department).fetchJoin()
+                .innerJoin(complaint.citizen, citizen).fetchJoin()
                 .where(conditions)
                 .orderBy(complaint.priorityScore.desc(), complaint.createdAt.desc(), complaint.complaintNo.desc())
                 .offset(pageable.getOffset())
