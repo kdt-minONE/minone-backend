@@ -44,4 +44,8 @@ public class ChatRoom extends BaseEntity {
         this.citizen = citizen;
         this.title = title;
     }
+
+    public void updateChatRoom(String title) {
+        this.title = title;
+    }
 }
