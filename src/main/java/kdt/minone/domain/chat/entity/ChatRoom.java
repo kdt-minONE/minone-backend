@@ -29,6 +29,9 @@ public class ChatRoom extends BaseEntity {
     @JoinColumn(name = "citizen_id", nullable = false)
     private Citizen citizen;
 
+    @Column(length = 100, nullable = false)
+    private String title;
+
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -37,7 +40,12 @@ public class ChatRoom extends BaseEntity {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Complaint> complaints = new ArrayList<>();
 
-    public ChatRoom(Citizen citizen) {
+    public ChatRoom(Citizen citizen, String title) {
         this.citizen = citizen;
+        this.title = title;
+    }
+
+    public void updateChatRoom(String title) {
+        this.title = title;
     }
 }

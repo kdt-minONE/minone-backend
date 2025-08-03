@@ -27,13 +27,14 @@ public class ChatHistory extends BaseEntity {
     @Column(nullable = false, columnDefinition = "text")
     private String content;
 
-    private boolean isAi = true;
+    private boolean isAi;
 
     @OneToMany(mappedBy = "chatHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComplaintFile> complaintFiles = new ArrayList<>();
 
-    public ChatHistory(ChatRoom chatRoom, String content) {
+    public ChatHistory(ChatRoom chatRoom, String content, boolean isAi) {
         this.chatRoom = chatRoom;
         this.content = content;
+        this.isAi = isAi;
     }
 }
