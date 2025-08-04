@@ -92,4 +92,9 @@ public class Complaint extends BaseEntity {
         this.status = status;
         this.priorityScore = priorityScore;
     }
+
+    public void cancelComplaint() {
+        this.isDeleted = true;
+        this.status = ComplaintStatus.CANCELLED;
+    }
 }
