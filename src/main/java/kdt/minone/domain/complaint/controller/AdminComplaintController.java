@@ -1,5 +1,7 @@
 package kdt.minone.domain.complaint.controller;
 
+import kdt.minone.domain.complaint.dto.ComplaintStatusReqDto;
+import kdt.minone.domain.complaint.dto.ComplaintStatusResDto;
 import kdt.minone.domain.complaint.dto.EmployeeComplaintDetailResDto;
 import kdt.minone.domain.complaint.dto.EmployeeComplaintListResDto;
 import kdt.minone.domain.complaint.service.AdminComplaintService;
@@ -48,6 +50,23 @@ public class AdminComplaintController {
 
         return new ResponseEntity<>(new BaseResDto<>(
                 "민원 단건 조회 성공",
+                result
+        ), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{complaintId}")
+    public ResponseEntity<BaseResDto<ComplaintStatusResDto>> changeStatusById(
+            @PathVariable Long complaintId,
+            @RequestBody ComplaintStatusReqDto dto
+    ) {
+
+        ComplaintStatusResDto result = adminComplaintService.changeStatusById(
+                complaintId,
+                dto.getStatus()
+        );
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "민원 처리 상태 변경 성공",
                 result
         ), HttpStatus.OK);
     }

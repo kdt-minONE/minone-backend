@@ -97,4 +97,8 @@ public class Complaint extends BaseEntity {
         this.isDeleted = true;
         this.status = ComplaintStatus.CANCELLED;
     }
+
+    public void changeStatus(String status) {
+        this.status = ComplaintStatus.of(status.toUpperCase());
+    }
 }
