@@ -3,11 +3,14 @@ package kdt.minone.domain.chat.controller;
 import kdt.minone.domain.chat.dto.ChatRoomResDto;
 import kdt.minone.domain.chat.dto.ChatRoomUpdateReqDto;
 import kdt.minone.domain.chat.service.UserChatRoomService;
+import kdt.minone.global.common.dto.BaseListResDto;
 import kdt.minone.global.common.dto.BaseResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +18,19 @@ import org.springframework.web.bind.annotation.*;
 public class UserChatRoomController {
 
     private final UserChatRoomService userChatRoomService;
+
+    @GetMapping
+    public ResponseEntity<BaseListResDto<ChatRoomResDto>> findAll(
+            @PathVariable Long userId
+    ) {
+
+        List<ChatRoomResDto> results = userChatRoomService.findAll(userId);
+
+        return new ResponseEntity<>(new BaseListResDto<>(
+                "채팅방 전체 조회 성공",
+                results
+        ), HttpStatus.OK);
+    }
 
     @PatchMapping("/{chatRoomId}")
     public ResponseEntity<BaseResDto<ChatRoomResDto>> updateChatRoomById(
