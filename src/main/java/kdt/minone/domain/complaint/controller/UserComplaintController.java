@@ -57,4 +57,15 @@ public class UserComplaintController {
                 result
         ), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{complaintId}")
+    public ResponseEntity<Void> cancelComplaintById(
+            @PathVariable Long userId,
+            @PathVariable Long complaintId
+    ) {
+
+        userComplaintService.cancelComplaintById(userId, complaintId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

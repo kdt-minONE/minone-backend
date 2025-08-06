@@ -1,5 +1,6 @@
 package kdt.minone.domain.complaint.service;
 
+import kdt.minone.domain.complaint.dto.ComplaintStatusResDto;
 import kdt.minone.domain.complaint.dto.EmployeeComplaintDetailResDto;
 import kdt.minone.domain.complaint.dto.EmployeeComplaintListResDto;
 import kdt.minone.domain.complaint.entity.Complaint;
@@ -28,5 +29,13 @@ public class AdminComplaintService {
         Complaint complaint = complaintRepository.findByIdOrElseThrow(complaintId);
 
         return new EmployeeComplaintDetailResDto(complaint);
+    }
+
+    @Transactional
+    public ComplaintStatusResDto changeStatusById(Long complaintId, String status) {
+        Complaint complaint = complaintRepository.findByIdOrElseThrow(complaintId);
+        complaint.changeStatus(status);
+
+        return new ComplaintStatusResDto(complaint);
     }
 }

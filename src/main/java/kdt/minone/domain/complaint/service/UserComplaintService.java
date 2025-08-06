@@ -43,4 +43,12 @@ public class UserComplaintService {
 
         return new CitizenComplaintDetailResDto(complaint, result);
     }
+
+    @Transactional
+    public void cancelComplaintById(Long userId, Long complaintId) {
+        Complaint complaint = complaintRepository.findByIdAndCitizenId(complaintId, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        complaint.cancelComplaint();
+    }
 }
