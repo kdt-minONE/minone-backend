@@ -7,6 +7,7 @@ import kdt.minone.domain.chat.dto.QMessageResDto;
 import kdt.minone.domain.chat.entity.QChatHistory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,6 +34,9 @@ public class CustomChatHistoryRepositoryImpl implements CustomChatHistoryReposit
             messageQuery.limit(limit);
         }
 
-        return messageQuery.fetch();
+        List<MessageResDto> messages = messageQuery.fetch();
+        Collections.reverse(messages);
+        
+        return messages;
     }
 }
