@@ -1,5 +1,6 @@
 package kdt.minone.domain.chat.controller;
 
+import kdt.minone.domain.chat.dto.ChatRoomDetailResDto;
 import kdt.minone.domain.chat.dto.ChatRoomResDto;
 import kdt.minone.domain.chat.dto.ChatRoomUpdateReqDto;
 import kdt.minone.domain.chat.service.UserChatRoomService;
@@ -29,6 +30,21 @@ public class UserChatRoomController {
         return new ResponseEntity<>(new BaseListResDto<>(
                 "채팅방 전체 조회 성공",
                 results
+        ), HttpStatus.OK);
+    }
+
+    @GetMapping("/{chatRoomId}")
+    public ResponseEntity<BaseResDto<ChatRoomDetailResDto>> findChatRoomById(
+            @PathVariable Long userId,
+            @PathVariable Long chatRoomId,
+            @RequestParam(required = false) Integer limit
+    ) {
+
+        ChatRoomDetailResDto result = userChatRoomService.findChatRoomById(userId, chatRoomId, limit);
+
+        return new ResponseEntity<>(new BaseResDto<>(
+                "채팅방 단건 조회 성공",
+                result
         ), HttpStatus.OK);
     }
 

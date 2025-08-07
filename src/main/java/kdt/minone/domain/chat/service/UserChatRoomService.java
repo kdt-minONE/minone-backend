@@ -1,7 +1,10 @@
 package kdt.minone.domain.chat.service;
 
+import kdt.minone.domain.chat.dto.ChatRoomDetailResDto;
 import kdt.minone.domain.chat.dto.ChatRoomResDto;
+import kdt.minone.domain.chat.dto.MessageResDto;
 import kdt.minone.domain.chat.entity.ChatRoom;
+import kdt.minone.domain.chat.repository.ChatHistoryRepository;
 import kdt.minone.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import java.util.List;
 public class UserChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatHistoryRepository chatHistoryRepository;
 
     @Transactional
     public ChatRoomResDto updateChatRoomById(Long userId, Long chatRoomId, String title) {
@@ -42,5 +46,15 @@ public class UserChatRoomService {
         return chatRooms.stream()
                 .map(ChatRoomResDto::new)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ChatRoomDetailResDto findChatRoomById(Long userId, Long chatRoomId, Integer limit) {
+        ChatRoom chatRoom = chatRoomRepository.findByIdAndCitizenId(chatRoomId, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "not found"));
+
+        List<MessageResDto> messages = chatHistoryRepository.findAllWithLimit(chatRoomId, limit);
+
+        return new ChatRoomDetailResDto(chatRoom, messages);
     }
 }
